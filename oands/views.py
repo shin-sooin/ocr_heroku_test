@@ -25,6 +25,7 @@ def index(request):
     text = ""
     message = ""
     eng_to_kor=""
+    image_requested=""
     if request.method == 'POST':
         form = ImageUpload(request.POST, request.FILES)
         if form.is_valid():
@@ -32,6 +33,7 @@ def index(request):
                 form.save()
                 image = request.FILES['image'].decode('urf-8')
                 image = image.name
+                image_requested=image
                 path = settings.MEDIA_ROOT
                 pathz = path + "/images/" + image
 
@@ -70,7 +72,9 @@ def index(request):
     context = {
         'text': text,
         'message': message,
-        'eng_to_kor': eng_to_kor
+        'eng_to_kor': eng_to_kor,
+        'image_requested': image_requested,
+        'check':'hi'
     }
     # get(context)
     # return render(request, 'formpage.html', context)
