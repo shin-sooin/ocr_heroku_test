@@ -25,6 +25,7 @@ def index(request):
     text = ""
     message = ""
     eng_to_kor=""
+    mode=0
     if request.method == 'POST':
         form = ImageUpload(request.POST, request.FILES)
         if form.is_valid():
@@ -34,7 +35,7 @@ def index(request):
                 image = image.name
                 path = settings.MEDIA_ROOT
                 pathz = path + "/images/" + image
-
+                mode=request.data['mode']
                 text = pytesseract.image_to_string(Image.open(pathz), lang='kor+eng')
                 text = text.encode("ascii", "ignore")
                 text = text.decode()
@@ -71,6 +72,7 @@ def index(request):
         'text': text,
         'message': message,
         'eng_to_kor': eng_to_kor,
+        'mode': mode
     }
     # get(context)
     # return render(request, 'formpage.html', context)
